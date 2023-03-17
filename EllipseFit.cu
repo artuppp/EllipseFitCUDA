@@ -91,7 +91,7 @@ static cv::RotatedRect GPUfitEllipse(std::vector <Point2f> points)
         //Calculate covariance matrix (A^t*A)
         cublasSgemm(cublas_handle, CUBLAS_OP_N, CUBLAS_OP_T, 5, 5, points.size(), &alpha, d_A, 5, d_A, 5, &beta, d_A, 5);
         //Solve system Cov * x = Sum(X)
-        cusolverStatus_t stat = cusolverDnSSgels(solver_handle, 5, 5, 1, d_A, 5, d_b, 5, d_x, 5, gdwork, work_bytes, &nil, d_info);
+        cusolverDnSSgels(solver_handle, 5, 5, 1, d_A, 5, d_b, 5, d_x, 5, gdwork, work_bytes, &nil, d_info);
         //Pass result to host
         cudaMemcpy(h_x, d_x, 5*sizeof(float), cudaMemcpyDeviceToHost);
         AA = h_x[0];
@@ -133,7 +133,7 @@ static cv::RotatedRect GPUfitEllipse(std::vector <Point2f> points)
         box.center.y = (mean_y - E1/2/C1)*cos_phi - (mean_x - D1/2/A1)*sin_phi;
         box.size.width = 2*sqrt(abs(F2/A1));
         box.size.height = 2*sqrt(abs(F2/C1));
-        box.angle = phi*180/3.14159265359;
+        box.angle = phi*180/M_PI;
 
         cudaFree(d_A);
         cudaFree(d_b);
