@@ -1,6 +1,6 @@
 CFLAGS = -std=c++17 `pkg-config --cflags --libs opencv4` -fopenmp -lfftw3f -O3
 PROGRAM = Excuse.cpp
-OBJECT = a.out
+OBJECT = ellipseTest.out
 NVCCFLAGS = -L/usr/local/cuda/lib64 -I/usr/local/cuda/include -lcusolver -lcudart -lcublas -lnppc -lnppial -lnppicc -lnppidei -lnppif -lnppig -lnppim -lnppist -lnppisu -lnppitc -lnpps -Xcompiler -fopenmp -O3 -std=c++17 `pkg-config --cflags --libs opencv4`
 
 build:

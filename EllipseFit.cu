@@ -66,7 +66,6 @@ static cv::RotatedRect GPUfitEllipse(std::vector <Point2f> points)
             A[5*i+4] = (float)points[i].y;
         }
         //Initialize variables
-        double threshold = 1e-3;
         float *d_A, *d_b, *d_x, alpha = 1.0f, beta = 0.0f, *gdwork;
         float AA, B, C, D, E, phi, cos_phi, sin_phi, cos_phi2, sin_phi2, sin_phi_cos_phi, A1, C1, D1, E1, F2, mean_xx;
         cublasHandle_t cublas_handle;
@@ -74,7 +73,7 @@ static cv::RotatedRect GPUfitEllipse(std::vector <Point2f> points)
         cusolverDnHandle_t solver_handle;
         cusolverDnCreate(&solver_handle);
         size_t work_bytes;
-        int *d_info, hinfo, nil = 0;
+        int *d_info, nil = 0;
         cudaMalloc((void**)&d_info, sizeof(int));
         cudaMalloc((void**)&d_A, 5*points.size()*sizeof(float));
         cudaMalloc((void**)&d_b, 5*sizeof(float));
